@@ -1,7 +1,6 @@
-[README_EN.md](https://github.com/user-attachments/files/29050779/README_EN.md)
 # AI Agent ESPer-Chan
 
-Copyright git:mochimochi-man / H.N.Ucchi / X:@calorie0
+Copyright git:mochimochi-man / H.N.Uh / X:@calorie0
 
 ## Usage Guide
 
@@ -536,7 +535,7 @@ A lightweight model (around 1B–4B parameters) is recommended.
 
 | Item | Details |
 |---|---|
-| ESPer-Chan | Copyright git:mochimochi-man / H.N.Ucchi / X:@calorie0 — this project (MIT License) |
+| ESPer-Chan | Copyright git:mochimochi-man / H.N.Uh / X:@calorie0 — this project (MIT License) |
 | M5Stack Avatar | Copyright Shishikawa (X:@meganetaaan) — cute avatar display, originally from Stack-Chan |
 | whisper.cpp | Copyright ggerganov — C++ implementation of OpenAI Whisper |
 | VOICEVOX | Shikoku Metan — high-quality Japanese TTS / default character voice |
