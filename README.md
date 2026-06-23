@@ -1,41 +1,41 @@
 # AI Agent ESPer-Chan
 
-Copyright git:mochimochi-man / H.N.Uh / X:@calorie0
+Copyright git:mochimochi-man / H.N. Uh / X:@calorie0
 
-## Usage Guide
+## User Guide
 
-A personal AI assistant that lives inside a tiny computer.
+Your own personal AI assistant, living inside a tiny computer.
 
 ---
 
 ## 1. Project Overview
 
-ESPer-Chan is a "local AI assistant" built around the Xiao ESP32S3 Sense*.
+ESPer-Chan is a "local AI assistant" built on the Xiao ESP32S3 Sense※.
 
-With the ESP32S3 acting as the front end, it works together with LM Studio (large language model), whisper.cpp (speech-to-text), and VOICEVOX (text-to-speech) running on your home PC. This lets the AI hold a spoken conversation — you talk to it, it talks back — without depending on any cloud service.
+With the ESP32S3 acting as the front end, it connects to LM Studio (a large language model), whisper.cpp (speech-to-text), and VOICEVOX (text-to-speech) running on your home PC, letting you enjoy voice conversations with an AI that doesn't depend on any cloud service — just talk, and it talks back.
 
-It features a custom face built with M5Stack Avatar, with lip-sync support so its mouth moves while it talks. Just say "hey, hey" (ねぇねぇ) and the conversation begins.
+It features a custom face powered by M5Stack Avatar, complete with lip-sync animation while it speaks. Just say "hey, hey" (ねぇねぇ) to start a conversation.
 
-> \* Currently this is a Japanese-local-only version (global version planned).
-> \* Some features have also been confirmed to work on a generic ESP32-S3. See [9. Running on an ESP32-S3 Devkit](#9-running-on-an-esp32-s3-devkit) for details.
+> ※Currently this is a Japanese-local-only build. (Global version support is planned.)
+> ※Some features have been confirmed to work on generic ESP32-S3 boards as well. See [9. Running on an ESP32-S3 Devkit](#9-running-on-an-esp32-s3-devkit) for details.
 
 ---
 
-## 2. Features
+## 2. What It Can Do
 
 | Feature | Description |
 |---|---|
-| Voice conversation | Say "hey, hey" (ねぇねぇ) and the AI recognizes your voice and responds |
-| Text input | Type text over USB serial to chat with the AI |
-| Voice response | The AI's reply is converted to natural Japanese speech via VOICEVOX and read aloud |
+| Voice conversation | Say "hey, hey" and it recognizes your voice and the AI responds |
+| Text input | Chat with the AI by typing over USB serial |
+| Voice response | The AI's replies are converted into natural Japanese speech by VOICEVOX and read aloud |
 | Avatar display | A face is shown on a small 128x64 OLED, reacting with expressions and lip-sync |
-| Web avatar display | View the avatar from a browser on a PC on the same network. Voice input can also be operated remotely via the voice-input start button; the microphone on the device itself is used |
+| Web avatar display | The avatar can be viewed from a browser on any PC on the same network. You can also trigger voice input remotely via a button (the microphone on the device itself is still used) |
 | Built-in web settings page | Switch the device into AP mode to edit some settings from a PC browser |
-| Weather info | Fetches today's, tomorrow's, and the day-after-tomorrow's weather using a weather forecast API (livedoor weather compatible) |
-| Current time | Fetches the current time using the NICT API |
+| Weather lookup | Uses a weather forecast API (livedoor-weather-compatible) to fetch today's, tomorrow's, and the day-after-tomorrow's forecast |
+| Current time lookup | Uses NICT's API to fetch the current time |
 | Local AI integration | Run any LLM (large language model) of your choice via LM Studio |
-| Music player (Xiao ESP32S3 Sense only) | Switch to music player mode to play music files (MP3/MP4/WAV) stored on a microSD card |
-| Face-detection web camera (Xiao ESP32S3 Sense only) | Switch to camera mode to use it as a web camera with face-detection. Detection info is output as JSON at a specified interval |
+| Music player (Xiao ESP32S3 Sense only) | Switch to Music Player mode to play music files (MP3/MP4/WAV) from a microSD card |
+| Face-detection web camera (Xiao ESP32S3 Sense only) | Switch to Camera mode to use it as a web camera with face-detection. Detection info is output as JSON at a specified interval |
 | Various commands | Use commands such as speaker test, mic test, TTS test, etc. for checking functionality |
 
 ---
@@ -47,14 +47,15 @@ It features a custom face built with M5Stack Avatar, with lip-sync support so it
 | Part | Details |
 |---|---|
 | Main board | Xiao ESP32S3 Sense (uses Wi-Fi + built-in PDM mic) |
-| Display | SSD1306 (128x64/I2C) or ST7735S (128x128/SPI) or ST7789 (320x240/SPI) |
+| Display | SSD1306 (128x64/I2C) or ST7735S (128x128/SPI) or ST7789 (240x240/SPI) or ST7789 (320x240/SPI) |
 | Speaker amp | MAX98357A module (I2S DAC amp for driving the speaker) |
 | Speaker | 8Ω 2W or higher |
 
 > \* Connect the speaker to the MAX98357A's "SPK+" and "SPK-" pins.
-> \* If you also prepare a tactile switch, it can be used as a mode-switch button. See the relevant section below for details.
+> \* Preparing a tactile pushbutton lets you use it as a mode-switch button. See the dedicated section below for details.
+> \* Some displays on the market don't have a CS pin. Those cannot be used given this wiring.
 
-### ■ Wiring Diagram (Pin Assignments)
+### ■ Wiring Diagram (Pinout)
 
 **[MAX98357A]**
 
@@ -87,6 +88,20 @@ It features a custom face built with M5Stack Avatar, with lip-sync support so it
 | GND | GND |
 | 3.3V | VCC |
 
+**[ST7789 (240x240/SPI)]**
+
+| Pin | Connects to |
+|---|---|
+| GPIO4 | DC |
+| GPIO5 | CS |
+| GPIO6 | RST |
+| GPIO7 | SCK |
+| GPIO9 | SDA |
+| GPIO4 | DC |
+| GND | GND |
+| 3.3V | VCC |
+| 3.3V | BK |
+
 ### ■ Software (PC side)
 
 | Software | Purpose |
@@ -94,11 +109,11 @@ It features a custom face built with M5Stack Avatar, with lip-sync support so it
 | LM Studio | Local LLM server |
 | whisper.cpp | Speech recognition (STT) server |
 | VOICEVOX | Speech synthesis (TTS) server |
-| Arduino IDE | Flashing the ESP32 |
+| Arduino IDE | For flashing the ESP32 |
 
 ---
 
-## 4. Setup Instructions
+## 4. Setup Steps
 
 ### ■ Step 1: Prepare the Arduino IDE
 
@@ -112,25 +127,25 @@ It features a custom face built with M5Stack Avatar, with lip-sync support so it
 
 4. Click "OK" to save.
 
-5. Open "Tools" → "Board" → "Boards Manager", search for "ESP32 by Espressif Systems" and install it.
+5. Open "Tools" → "Board" → "Boards Manager", search for "ESP32 by Espressif Systems", and install it.
 
 6. Select "Tools" → "Board" → "XIAO_ESP32S3" (or "ESP32S3 Dev Module").
 
-### ■ Step 2: Install Required Libraries
+### ■ Step 2: Install the Required Libraries
 
-From the Arduino IDE's "Sketch" → "Include Library" → "Manage Libraries", search for and install the following libraries:
+From the Arduino IDE's "Sketch" → "Include Library" → "Manage Libraries", search for and install the following libraries.
 
-- **M5Unified** (official M5Stack)
-- **M5UnitGLASS2** (official M5Stack)
+- **M5Unified** (by M5Stack)
+- **M5UnitGLASS2** (by M5Stack)
 - **M5Stack-Avatar** (by meganetaaan)
 - **ArduinoJson** (by Benoit Blanchon)
 
-> \* After installing M5Stack-Avatar, you need to manually patch Face.h. Edit `Arduino/libraries/M5Stack_Avatar/src/Face.h` in the following two places:
+> \* After installing M5Stack-Avatar, you need to manually patch Face.h. Edit `Arduino/libraries/M5Stack_Avatar/src/Face.h` in two places as follows:
 >
 > 1. `void draw(DrawContext *ctx);` → `virtual void draw(DrawContext *ctx);`
 > 2. `private:` → `protected:`
 
-### ■ Step 3: Start the PC-side Servers (Windows GUI)
+### ■ Step 3: Start the PC-side Servers (Windows GUI version)
 
 #### --- LM Studio (LLM server) ---
 
@@ -141,28 +156,28 @@ From the Arduino IDE's "Sketch" → "Include Library" → "Manage Libraries", se
 3. Launch LM Studio. On first launch, a model download screen appears.
 
 4. Search for and download the model you want to use.
-   - e.g. `lfm2.5-1.2b-instruct-GGUF` * default in config.h
-   - e.g. `phi-4-mini-instruct`
-   - e.g. `qwen3-1.7b`
-   - e.g. `gemma-4-e2b`
+   - Example: `lfm2.5-1.2b-instruct-GGUF` ※config.h's default setting
+   - Example: `phi-4-mini-instruct`
+   - Example: `qwen3-1.7b`
+   - Example: `gemma-4-e2b`
 
-5. Open Settings from the gear icon in the lower left, and enable "Enable Local LLM Service" from the Developer section. Quit once.
+5. Open Settings from the gear icon in the bottom-left, go to Developer, and enable "Enable local LLM service". Then quit once.
 
 6. Launch it again, and from the LM Studio icon in the system tray, click "Start Server On Port 1234...".
 
-7. Once the server is running, leave LM Studio minimized.
+7. Once the server has started, you can leave LM Studio minimized.
 
 #### --- whisper.cpp (STT server) ---
 
 1. Open https://github.com/ggml-org/whisper.cpp/releases in your browser.
 
-2. At the bottom of the page, from "Assets" under the latest release, download the Windows ZIP file (e.g. `whisper-bin-x64.zip`).
+2. From the "Assets" section of the latest release at the bottom of the page, download the Windows ZIP file (e.g. "whisper-bin-x64.zip").
 
-3. Extract the downloaded ZIP to a folder of your choice.
-   - e.g. `C:\whisper.cpp-bin`
+3. Extract the downloaded ZIP and place the folder anywhere you like.
+   - Example: `C:\whisper.cpp-bin`
 
-4. Place a model file (ggml-small.bin recommended) inside a subfolder of the folder from step 3.
-   - e.g. `C:\whisper.cpp-bin\models`
+4. Put a model file (ggml-small.bin recommended) into a subfolder of the folder from step 3.
+   - Example: `C:\whisper.cpp-bin\models`
    - Models can be downloaded from https://huggingface.co/ggerganov/whisper.cpp/tree/main
 
 5. Open PowerShell and navigate to the folder from step 3:
@@ -170,11 +185,11 @@ From the Arduino IDE's "Sketch" → "Include Library" → "Manage Libraries", se
    cd C:\whisper.cpp-bin
    ```
 
-6. Start it in server mode:
+6. Launch it in server mode:
    ```
    ./whisper-server -m ./models\ggml-small.bin --host 0.0.0.0 --port 8080 -l ja
    ```
-   Success is indicated by the message "HTTP server started". Don't close this window.
+   If you see the "HTTP server started" message, it worked. Don't close this window.
 
 #### --- VOICEVOX (TTS server) ---
 
@@ -184,75 +199,53 @@ From the Arduino IDE's "Sketch" → "Include Library" → "Manage Libraries", se
 
 3. Run the downloaded installer and follow the on-screen instructions. There's nothing tricky to configure.
 
-4. Once installation is complete, launch VOICEVOX.
+4. Once installed, launch VOICEVOX.
 
-5. On first launch, the "voice library download" begins. Since Shikoku Metan (speaker ID 2) is used by default, it's fine as long as that speaker's data has been downloaded. Quit once.
+5. On first launch, "voice library download" begins. Since Shikoku Metan (speaker ID 2) is used by default, it's fine as long as that speaker's data has been downloaded. Quit once.
 
-6. Open PowerShell and navigate to the VOICEVOX install folder:
+6. Open PowerShell and navigate to VOICEVOX's install folder:
    ```
    cd C:\Users\(your username)\AppData\Local\programs\VOICEVOX\vv-engine
    ```
-   `\AppData` is a hidden folder, so enable hidden files from the View tab in File Explorer.
+   `\AppData` is a hidden folder, so enable "Hidden items" from the View tab in File Explorer.
 
-7. Start VOICEVOX in server mode. Don't close this window.
+7. Launch VOICEVOX in server mode. Don't close this window.
    ```
    ./run.exe --host xxx.xxx.xxx.xxx
    ```
 
-> \* The ESP32 and the PC both need to be connected to "the same Wi-Fi network" and a "public network". Also make sure Windows Firewall is not blocking ports 1234, 8081, and 50021.
+> \* The ESP32 and your PC must both be connected to "the same Wi-Fi network" and "the same public network". Also check that Windows Firewall isn't blocking ports 1234, 8081, and 50021.
 
-### ■ Step 4: Configure config.h
+### ■ Step 4: Web-based config.h Settings
 
-Open `config.h` inside the project folder in a text editor and edit it to match your home environment.
-Some settings, such as WiFi, can also be configured from a browser on a PC connected to Twenty-Chan in AP mode. See [7. Web Configuration via AP Mode](#7-web-configuration-via-ap-mode) for details.
+Basic settings are done from the web screen.
 
-**--- WiFi settings ---**
-```cpp
-#define WIFI_SSID       "Your_WiFi_SSID"
-#define WIFI_PASSWORD   "Your_WiFi_Password"
-```
+1. **Switch to AP mode**
 
-**--- LM Studio ---**
-```cpp
-#define LMSTUDIO_HOST   "xxx.xxx.xxx.xxx"
-#define LMSTUDIO_PORT   1234
-```
+   If there's no Wi-Fi connection configured, or if you type the /ap command in the serial monitor, the device switches to AP mode.
 
-**--- whisper.cpp ---**
-```cpp
-#define WHISPER_HOST    "xxx.xxx.xxx.xxx"
-#define WHISPER_PORT    8080
-```
+2. **Connect your PC to the AP-mode ESPer-Chan**
 
-**--- VOICEVOX ---**
-```cpp
-#define TTS_HOST        "xxx.xxx.xxx.xxx"
-#define TTS_PORT        50021
-```
+   Once in AP mode, the connection details are displayed; connect your PC to that network. A DHCP server is included, so there's no need to configure an IP address manually.
 
-**--- Model selection ---**
+3. **Access the web settings page from a browser**
 
-Remove the `//` at the start of the line for the model you want to use, and comment out (`//`) the others.
+   Open the displayed IP address in your browser. Once you're done configuring, reconnect your PC to its original network.
 
-```cpp
-// #define MODEL_NAME      "phi-4-mini-instruct"
-// #define MODEL_NAME      "qwen3-1.7b"
-#define MODEL_NAME      "lfm2.5-1.2b-instruct"
-```
+※Make sure the model you want to use has already been downloaded and is ready to use in LM Studio.
 
-> How to find the HOST name (your PC's IP address):
-> Open Command Prompt, run `ipconfig`, and check the "IPv4 Address" value.
+> \* You can also edit config.h directly, but anything saved via the web settings takes priority.
 
-### ■ Step 5: Compile and Upload
+### ■ Step 5: Compile and Flash
 
 1. Open the .ino file in the Arduino IDE.
 2. Select "XIAO_ESP32S3" under "Tools" → "Board".
 3. Select the COM port the ESP32S3 is connected to under "Tools" → "Port".
 4. In the board settings near the bottom of the "Tools" menu, set PSRAM to "OPI PSRAM".
-5. Click the "→" (Upload) button in the upper left.
-6. Once compiling finishes and "Done uploading" is displayed, it's a success.
-7. Open the Serial Monitor (the magnifying-glass icon in the lower right) and set the baud rate to "115200".
-8. After restarting the ESP32S3 once, you should see "👤 You: " displayed — that means it's working.
+5. Click the "→" (upload) button in the top-left.
+6. Once compiling finishes and "Done uploading" is shown, you're set.
+7. Open the Serial Monitor (the magnifying glass icon in the bottom-right) and set the baud rate to "115200".
+8. Restart the ESP32S3 once; if "👤 You: " is shown at the end, it's working.
 
 ---
 
@@ -260,7 +253,7 @@ Remove the `//` at the start of the line for the model you want to use, and comm
 
 ### ■ Startup
 
-On a successful boot, you'll see something like this in the idle state:
+Once it boots successfully, it enters the following idle state.
 
 ```
 ========================================
@@ -272,13 +265,13 @@ On a successful boot, you'll see something like this in the idle state:
 
 ### ■ Text Input Mode
 
-Type text in the Serial Monitor and press Enter to send it to the AI.
+Type text in the serial monitor and press Enter to send it to the AI.
 The AI's reply is shown as text and read aloud at the same time.
 
 ```
 👤 You: Hello
 ========================================
-🤖 ESPer-Chan: Hi! How are you? Want to talk about something?
+🤖 ESPer-Chan: Hi there! How are you? Want to chat about something?
 ========================================
 ```
 
@@ -286,11 +279,11 @@ The AI's reply is shown as text and read aloud at the same time.
 
 Say "hey, hey" (ねぇねぇ), and after a few seconds the wake word is detected and it enters voice input mode. That's signaled by the face turning into a surprised expression, the LED flashing briefly, and a "beep" sound.
 
-Just keep talking — your voice will be recognized and the AI will respond.
+Just keep talking, and your speech will be recognized and the AI will respond.
 
-While you're talking the face stays expressionless; while processing on the server it shows a smiling expression.
+While you're talking, the face is expressionless; while it's processing on the server, the face smiles.
 
-If a reply is too long, the audio may get cut off partway through.
+If the response is too long, the audio may cut off partway through.
 
 ```
 ✨ Wake word detected
@@ -300,65 +293,65 @@ If a reply is too long, the audio may get cut off partway through.
 ========================================
 ```
 
-You can also ask about the weather using voice input. To do so, say one of the following:
+You can also ask for weather information by voice. To do so, say one of the following:
 
-> "Today's weather", "Tomorrow's weather", or "The day after tomorrow's weather"
+> "Today's weather" or "Tomorrow's weather" or "The day after tomorrow's weather"
 
-> \* Weather info is retrieved using an API operated through an individual's goodwill. Please refrain from repeatedly fetching weather info beyond reasonable use.
+> \* Weather lookups use an API run as a personal goodwill service. Please refrain from repeatedly fetching weather data beyond reasonable use.
 
-You can also get the current time via voice input. To do so, say one of the following:
+You can also get the current time by voice. To do so, say one of the following:
 
-> "Current time" or "What time is it now"
+> "What time is it now" or "Current time"
 
 ### ■ Music Player Mode (Xiao ESP32S3 Sense only)
 
-Switching to music player mode (hereafter, MP mode) lets you play music files (MP3/MP4/WAV) stored on a microSD card.
+Switching to Music Player mode (MP mode) lets you play music files (MP3/MP4/WAV) stored on a microSD card.
 
-To switch to MP mode, type the `/music` command in the Serial Monitor, or say "music mode" or "music player" via voice input.
+To switch to MP mode, type the /music command in the serial monitor, or say "music mode" or "music player" by voice.
 
-When you switch to MP mode, a track-name list (INDEX) is built first. The player plays tracks based on this list. If you add new tracks, rebuild the list with the `/index` command.
+When you switch to MP mode, a song list (INDEX) is generated first. The player uses this list to play tracks. If you add new songs, rebuild the list with the /index command.
 
-To play tracks, use the `/play` (in list order), `/random` (shuffle), and `/artist` commands.
+To play tracks, use /play (list order), /random (random), or /artist (by artist).
 
-MP mode also has its own dedicated commands. See `/help` for details.
+MP mode also has its own set of dedicated commands; see /help for details.
 
-Note that voice input does not work in MP mode. To return to normal mode, type the `/exit` command in the Serial Monitor, or use the button on the web screen.
+Note that voice input doesn't work in MP mode. To return to normal mode, type the /exit command in the serial monitor, or use the button on the web screen.
 
 ### ■ Face-Detection Web Camera Mode (Xiao ESP32S3 Sense only)
 
 Switching to camera mode lets you use it as a web camera with face-detection support.
 
-To switch to camera mode, type the `/cam` command in the Serial Monitor, or say "camera" via voice input.
+To switch to camera mode, type the /cam command in the serial monitor, or say "camera" by voice.
 
-When you switch to camera mode, it automatically reboots. The web screen switches to camera mode. Press "START" to start the camera.
+Switching to camera mode automatically reboots the device, and the web screen switches to camera mode. Pressing START starts the camera.
 
 > \* There is no feature for recognizing specific individuals.
-> \* While in camera mode, recognition info is output to serial as JSON at a specified interval. However, note that the TX/RX pins cannot be used if a tactile switch is connected.
-> \* The display does not work in camera mode. To return to normal mode, type the `/exit` command in the Serial Monitor, or use the button on the web screen.
-> \* Camera mode persists unless you return to normal mode with `/exit`. It will remain in camera mode even after a reboot, so be careful.
+> \* While in camera mode, recognition info is output to serial as JSON at the configured interval. Note that if a tactile switch is connected, the TX/RX port is unavailable.
+> \* To return to normal mode, type the /exit command in the serial monitor, or use the button on the web screen.
+> \* Camera mode persists until you exit it with /exit. Even if you reboot while in camera mode, it stays in camera mode — please be aware of this.
 
 ### ■ Command List
 
-In normal mode, the following commands can be typed in the Serial Monitor:
+In normal mode, the following commands can be entered from the serial monitor.
 
 | Command | Description |
 |---|---|
-| `/voice` | Voice conversation (mic → LLM → read aloud) |
+| `/voice` | Voice conversation (mic → LLM → speech) |
 | `/say <text>` | Read text aloud |
-| `/music` | Start music player mode |
+| `/music` | Start Music Player mode |
 | `/camera` `/cam` | Start web camera mode |
 | `/today` | Today's weather forecast |
 | `/tomorrow` | Tomorrow's weather forecast |
-| `/dat` | Day-after-tomorrow's weather forecast |
+| `/dat` | The day after tomorrow's weather forecast |
 | `/time` | Read out the current time (NICT) |
-| `/status` | Show WiFi/memory status, etc. |
+| `/status` | Show Wi-Fi/memory/etc. status |
 | `/clear` | Clear conversation history |
 | `/reset` | Reboot |
-| `/ap` | AP mode (WiFi setup) |
-| `/initialize` | Reset settings to defaults |
+| `/ap` | AP mode (Wi-Fi setup) |
+| `/initialize` | Reset settings to default |
 | `/beep` | Beep sound test |
 | `/mic` | Mic test (3-second recording) |
-| `/stt` | STT test (recording → text conversion) |
+| `/stt` | STT test (record → transcribe) |
 | `/tts` | TTS test (read-aloud check) |
 
 ---
@@ -367,21 +360,21 @@ In normal mode, the following commands can be typed in the Serial Monitor:
 
 ### ■ Changing the AI Assistant's Name
 
-Change `PROJECT_NAME` and `SPEAK_NAME` in config.h.
+Edit PROJECT_NAME and SPEAK_NAME in config.h.
 
 ```cpp
 #define PROJECT_NAME    "My-Chan"
 #define SPEAK_NAME      "Mai-chan"
 ```
 
-`SPEAK_NAME` is the name the AI uses when it reads things aloud.
+SPEAK_NAME is the name the AI uses when speaking aloud.
 
 ### ■ Changing the Personality
 
-Edit `SYSTEM_PROMPT` in config.h.
+Edit SYSTEM_PROMPT in config.h.
 
 ```cpp
-#define SYSTEM_PROMPT   "You are a small, cute AI assistant named 'Mai-chan'. You have a friendly, slightly mischievous personality. Reply in short, easy-to-understand Japanese."
+#define SYSTEM_PROMPT   "You are a small, cute AI assistant named \"Mai-chan\". You have a friendly, slightly playful personality. Please reply in short, easy-to-understand Japanese."
 ```
 
 ### ■ Changing the AI Model
@@ -394,44 +387,25 @@ In the model-selection section of config.h, uncomment the model you want to use.
 #define MODEL_NAME      "lfm2.5-1.2b-instruct"
 ```
 
-You need to have the corresponding model loaded in LM Studio.
+You'll need to have the corresponding model loaded on the LM Studio side.
 
 ---
 
-## 7. Web Configuration via AP Mode
+## 7. Connecting a Tactile Switch
 
-Some of config.h can be configured via the web as well. To do so, switch ESPer-Chan into AP mode via the Serial Monitor, then access it from a browser on a PC connected to that AP.
-
-1. **Switch to AP mode**
-
-   If you don't have WiFi configured, or can't connect to your usual network, type the `/ap` command in the Serial Monitor to switch into AP mode.
-
-2. **Connect your PC to ESPer-Chan's AP**
-
-   When you switch to AP mode, the connection name is displayed — connect your PC to it. A DHCP server is also provided, so you don't need to configure an IP address manually.
-
-3. **Access the web configuration page from a browser**
-
-   Access the displayed IP address from your browser. Once you've finished configuring, switch your PC's connection back to its original network.
-
----
-
-## 8. Connecting a Tactile Switch
-
-Connecting a tactile switch lets you use it as a button to cycle through normal mode → music mode → camera mode.
+Connecting a tactile pushbutton lets you use it as a button to cycle through Normal mode → Music mode → Camera mode.
 
 When wiring it up, refer to the following:
 
-1. Change `#define USE_USB_CDC 0` to `1` in config.h
+1. Change `#define USE_USB_CDC 0` in config.h to `1`
 2. Connect the tactile switch between GPIO43 and GND
-3. When uploading, set "USB CDC On Boot:" to "Enabled"
+3. When flashing, set "USB CDC On Boot" to Enabled
 
-> \* Connecting a tactile switch means the TX/RX pins can no longer be used, so this is not compatible with use cases where you want to monitor camera mode's JSON output over serial.
-> \* After uploading with "USB CDC On Boot: Enabled", if you need to upload again, hold the device's BOOT button while reconnecting power.
+> \* Once a tactile switch is connected, the TX/RX port becomes unavailable, so this can't be used together with monitoring camera mode's JSON output over serial.
 
 ---
 
-## 9. Running on an ESP32-S3 Devkit
+## 8. Running on an ESP32-S3 Devkit
 
 Operation has been confirmed in the following environment.
 
@@ -447,7 +421,7 @@ Operation has been confirmed in the following environment.
 
 > \* Connect the speaker to the MAX98357A's "SPK+" and "SPK-" pins.
 
-### ■ Wiring Diagram (Pin Assignments)
+### ■ Wiring Diagram (Pinout)
 
 **[MAX98357A]**
 
@@ -489,7 +463,7 @@ Operation has been confirmed in the following environment.
 | GPIO17 | SD |
 | GND | L/R |
 | GND | GND |
-| 5VIN | VDD * Voice recognition becomes unstable unless connected to 5V |
+| 5VIN | VDD ※Must be wired to 5V, otherwise speech recognition becomes unstable |
 
 ### ■ config.h
 
@@ -503,25 +477,24 @@ Operation has been confirmed in the following environment.
 
 - External SD card module
 - External camera module
-- Tactile switch
 
 ---
 
-## 10. Troubleshooting
+## 9. Troubleshooting
 
 **Wi-Fi connection fails**
 Check that the SSID/password in config.h are correct.
-Make sure the PC and ESPer-Chan are connected to the same Wi-Fi network.
+Check that your PC and ESPer-Chan are connected to the same Wi-Fi network.
 
-**Voice recognition doesn't work**
+**Speech isn't recognized**
 Check that the whisper.cpp server is running.
 Check that Windows Firewall isn't blocking port 8080.
 
 **No audio output**
 Check that the VOICEVOX engine is running.
-Check that the MAX98357A pins and speaker are wired correctly.
+Check that the MAX98357A's pins and speaker are wired correctly.
 
-**Face doesn't display**
+**Face doesn't appear**
 Check that the display pins are wired correctly.
 Check that the M5Unified, M5UnitGLASS2, and M5Stack-Avatar libraries are installed in the Arduino IDE.
 
@@ -531,19 +504,19 @@ A lightweight model (around 1B–4B parameters) is recommended.
 
 ---
 
-## 11. Credits & License
+## 10. Acknowledgements & License
 
 | Item | Details |
 |---|---|
-| ESPer-Chan | Copyright git:mochimochi-man / H.N.Uh / X:@calorie0 — this project (MIT License) |
-| M5Stack Avatar | Copyright Shishikawa (X:@meganetaaan) — cute avatar display, originally from Stack-Chan |
-| whisper.cpp | Copyright ggerganov — C++ implementation of OpenAI Whisper |
+| ESPer-Chan | Copyright git:mochimochi-man / H.N. Uh / X:@calorie0 — this project (MIT License) |
+| M5Stack Avatar | Copyright Shishikawa (X:@meganetaaan) — the cute avatar display, a.k.a. the original Stack-Chan |
+| whisper.cpp | Copyright ggerganov — a C++ implementation of OpenAI Whisper |
 | VOICEVOX | Shikoku Metan — high-quality Japanese TTS / default character voice |
 | LM Studio | — local LLM runtime environment |
-| Weather forecast API (livedoor weather compatible) | — weather forecast API |
+| Weather Forecast API (livedoor weather compatible) | — weather forecast API |
 
 This project is a personal hobby project.
-Please check the license terms of each library/software before any commercial use.
+For commercial use, please check the license terms of each library/software involved.
 
 ---
 
