@@ -164,8 +164,8 @@ static const float VERB_COMB_FB       = 0.84f;   // フィードバック係数�
 static const int   VERB_AP_DELAY[2]   = {225,  556};
 static const int   VERB_AP_SIZE[2]    = {300,  700};
 static const float VERB_AP_COEFF      = 0.5f;
-static const float VERB_WET           = 0.22f;  // ルーム感の強さ（0.28×0.8）
-static const float VERB_DRY           = 0.78f;
+static const float VERB_WET           = 0.11f;  // ルーム感の強さ（0.28×0.4）
+static const float VERB_DRY           = 0.89f;
 
 static void initReverb() {
     for (int i = 0; i < 4; i++) {
