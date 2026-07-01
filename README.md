@@ -156,8 +156,7 @@ From the Arduino IDE's "Sketch" → "Include Library" → "Manage Libraries", se
 3. Launch LM Studio. On first launch, a model download screen appears.
 
 4. Search for and download the model you want to use.
-   - Example: `lfm2.5-1.2b-instruct-GGUF` ※config.h's default setting
-   - Example: `phi-4-mini-instruct`
+   - Example: `lfm2.5-1.2b-instruct-GGUF`
    - Example: `qwen3-1.7b`
    - Example: `gemma-4-e2b`
 
@@ -315,7 +314,8 @@ To play tracks, use /play (list order), /random (random), or /artist (by artist)
 
 MP mode also has its own set of dedicated commands; see /help for details.
 
-Note that voice input doesn't work in MP mode. To return to normal mode, type the /exit command in the serial monitor, or use the button on the web screen.
+> \* Note that voice input doesn't work in MP mode. To return to normal mode, type the /exit command in the serial monitor, or use the button on the web screen.
+> \* Due to missing library dependencies, certain files cannot be played. Such files will be skipped once their titles are shown.
 
 ### ■ Face-Detection Web Camera Mode (Xiao ESP32S3 Sense only)
 
