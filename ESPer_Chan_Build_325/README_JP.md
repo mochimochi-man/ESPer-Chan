@@ -1,6 +1,6 @@
 # AI Agent ESPer-Chan
 
-Copyright git:mochimochi-man / H.N.うっ / X:@calorie0
+Copyright git:mochimochi-man / X:@MochimochimanEX
 
 ## 使い方ガイド
 
@@ -507,7 +507,7 @@ Arduino IDEでM5Unified、M5UnitGLASS2、M5Stack-Avatarライブラリがイン�
 
 | 項目 | 内容 |
 |---|---|
-| ESPer-Chan | Copyright git:mochimochi-man / H.N.うっ / X:@calorie0 — 本プロジェクト(MIT License) |
+| ESPer-Chan | Copyright git:mochimochi-man / X:@MochimochimanEX — 本プロジェクト(MIT License) |
 | M5Stack Avatar | Copyright ししかわ(X:@meganetaaan) — かわいいアバター表示もといStack-Chanオリジナル版 |
 | whisper.cpp | Copyright ggerganov — OpenAI WhisperのC++実装 |
 | VOICEVOX | 四国めたん — 高性能日本語TTS/初期設定キャラクターボイス |
